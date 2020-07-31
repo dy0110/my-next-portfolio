@@ -10,6 +10,7 @@
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "lint": "eslint . --ext ts --ext tsx --ext js",
+    "lint-fix": "eslint --fix --ext .ts,.tsx --ignore-path .eslintignore .",
     "test": "jest",
     "test-all": "yarn lint && yarn type-check && yarn test"
   },
@@ -26,9 +27,14 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "emotion-theming": "^10.0.27",
     "next": "latest",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0"
   },
   "devDependencies": {
     "@testing-library/react": "^10.0.1",
@@ -41,6 +47,8 @@
     "babel-jest": "^25.2.3",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.3",
     "jest": "^25.2.3",
