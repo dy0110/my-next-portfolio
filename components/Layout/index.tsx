@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { Box, theme, Heading, IconButton, useColorMode } from '@chakra-ui/core'
+import { Box, theme, IconButton, useColorMode, Button } from '@chakra-ui/core'
 import Head from 'next/head'
 import { Global } from '@emotion/core'
 import { DiGithubBadge } from 'react-icons/di'
@@ -24,7 +24,7 @@ const Layout: NextPage<Props> = ({ children }) => {
   const { colorMode, toggleColorMode } = useColorMode()
   const [color, setColor] = useState(``)
   useEffect(() => {
-    setColor(colorMode === `light` ? theme.colors.teal[300] : colorMode)
+    setColor(colorMode === `light` ? theme.colors.teal[400] : colorMode)
   }, [colorMode])
 
   return (
@@ -46,7 +46,32 @@ const Layout: NextPage<Props> = ({ children }) => {
         justifyContent={'space-between'}
       >
         <Box>
-          <Heading size="xl">This is the Header</Heading>
+          <Button
+            variantColor="teal"
+            variant="link"
+            color={theme.colors.white}
+            size="lg"
+          >
+            Home
+          </Button>
+          <Button
+            variantColor="teal"
+            variant="link"
+            color={theme.colors.white}
+            size="lg"
+            marginLeft={'16px'}
+          >
+            About
+          </Button>
+          <Button
+            variantColor="teal"
+            variant="link"
+            color={theme.colors.white}
+            size="lg"
+            marginLeft={'16px'}
+          >
+            Blog
+          </Button>
         </Box>
         <Box>
           <IconButton
@@ -79,6 +104,13 @@ const Layout: NextPage<Props> = ({ children }) => {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
           Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+      color: ${colorMode === `light` ? theme.colors.gray[600] : colorMode};
+      }
+      @media (max-width: 600px) {
+        .grid {
+          width: 100%;
+          flex-direction: column;
+        }
       }
      `}
       />
