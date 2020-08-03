@@ -1,10 +1,12 @@
 import { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { Box, theme, IconButton, useColorMode, Button } from '@chakra-ui/core'
 import Head from 'next/head'
 import { Global } from '@emotion/core'
 import { DiGithubBadge } from 'react-icons/di'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
+import Particles from 'react-tsparticles'
 
 const GithubIcon = (): JSX.Element => {
   return <Box as={DiGithubBadge} size={'36px'} color={theme.colors.white} />
@@ -21,10 +23,17 @@ const MoonIcon = (): JSX.Element => {
 interface Props {}
 
 const Layout: NextPage<Props> = ({ children }) => {
+  const router = useRouter()
+
   const { colorMode, toggleColorMode } = useColorMode()
-  const [color, setColor] = useState(``)
+  const [headerColor, setHeaderColor] = useState(``)
+  const [textColor, setTextColor] = useState(``)
+
   useEffect(() => {
-    setColor(colorMode === `light` ? theme.colors.teal[400] : colorMode)
+    setHeaderColor(colorMode === `light` ? theme.colors.teal[400] : colorMode)
+    setTextColor(
+      colorMode === `light` ? theme.colors.gray[600] : theme.colors.white
+    )
   }, [colorMode])
 
   return (
@@ -35,7 +44,7 @@ const Layout: NextPage<Props> = ({ children }) => {
       </Head>
       <Box
         as={'header'}
-        bg={color}
+        bg={headerColor}
         w="100%"
         p={4}
         color={'white'}
@@ -51,6 +60,9 @@ const Layout: NextPage<Props> = ({ children }) => {
             variant="link"
             color={theme.colors.white}
             size="lg"
+            onClick={() => {
+              router.push('/')
+            }}
           >
             Home
           </Button>
@@ -60,6 +72,9 @@ const Layout: NextPage<Props> = ({ children }) => {
             color={theme.colors.white}
             size="lg"
             marginLeft={'16px'}
+            onClick={() => {
+              router.push('/about')
+            }}
           >
             About
           </Button>
@@ -69,6 +84,9 @@ const Layout: NextPage<Props> = ({ children }) => {
             color={theme.colors.white}
             size="lg"
             marginLeft={'16px'}
+            onClick={() => {
+              router.push('/posts')
+            }}
           >
             Blog
           </Button>
@@ -95,7 +113,31 @@ const Layout: NextPage<Props> = ({ children }) => {
           />
         </Box>
       </Box>
-      <div>{children}</div>
+      <Particles
+        width={'100%'}
+        height={'100vh'}
+        options={{
+          particles: {
+            color: {
+              value: 'random',
+            },
+            links: {
+              color: {
+                value: textColor,
+              },
+              enable: true,
+              opacity: 0.8,
+            },
+            move: {
+              enable: true,
+            },
+            size: {
+              value: 3,
+            },
+          },
+        }}
+      ></Particles>
+      {children}
       <Global
         styles={`
       html,
@@ -104,7 +146,7 @@ const Layout: NextPage<Props> = ({ children }) => {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
           Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      color: ${colorMode === `light` ? theme.colors.gray[600] : colorMode};
+      color: ${textColor};
       }
       @media (max-width: 600px) {
         .grid {

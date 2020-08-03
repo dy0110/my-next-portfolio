@@ -9,14 +9,16 @@ const StyledBox = styled(Box)`
     color: ${theme.colors.teal[400]};
     border-color: ${theme.colors.teal[400]};
   }
+  transition: color 0.15s ease, border-color 0.15s ease;
 `
 
 interface Props {
   title: string
   content: string
+  onClick: () => void
 }
 
-const HomeCard: NextPage<Props> = ({ title, content }) => {
+const HomeCard: NextPage<Props> = ({ title, content, onClick }) => {
   return (
     <StyledBox
       margin={'1rem'}
@@ -27,6 +29,7 @@ const HomeCard: NextPage<Props> = ({ title, content }) => {
       borderStyle={`solid`}
       borderRadius={`10px`}
       transition={`color 0.15s ease, border-color 0.15s ease`}
+      onClick={onClick}
     >
       <Text as={'h3'} fontSize={`1.5rem`} marginBottom={`1rem`}>
         {title} &rarr;
