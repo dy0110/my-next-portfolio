@@ -6,7 +6,11 @@ import { Global } from '@emotion/core'
 import { DiGithubBadge } from 'react-icons/di'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
-import Particles from 'react-tsparticles'
+import dynamic from 'next/dynamic'
+
+const ParticlesNoSSR = dynamic(() => import('../Particles'), {
+  ssr: false,
+})
 
 const GithubIcon = (): JSX.Element => {
   return <Box as={DiGithubBadge} size={'36px'} color={theme.colors.white} />
@@ -113,30 +117,7 @@ const Layout: NextPage<Props> = ({ children }) => {
           />
         </Box>
       </Box>
-      <Particles
-        width={'100%'}
-        height={'100vh'}
-        options={{
-          particles: {
-            color: {
-              value: 'random',
-            },
-            links: {
-              color: {
-                value: textColor,
-              },
-              enable: true,
-              opacity: 0.8,
-            },
-            move: {
-              enable: true,
-            },
-            size: {
-              value: 3,
-            },
-          },
-        }}
-      ></Particles>
+      <ParticlesNoSSR />
       {children}
       <Global
         styles={`
@@ -148,6 +129,13 @@ const Layout: NextPage<Props> = ({ children }) => {
           Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
       color: ${textColor};
       }
+
+      #tsParticles{
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+      }
+
       @media (max-width: 600px) {
         .grid {
           width: 100%;

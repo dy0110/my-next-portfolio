@@ -5,7 +5,6 @@ import Layout from '../components/Layout/index'
 import HomeCard from '../components/HomeCard/index'
 import Footer from '../components/Fotter'
 import { useRouter } from 'next/router'
-import Particles from 'react-tsparticles'
 
 export const Home: NextPage = () => {
   const router = useRouter()
@@ -13,6 +12,7 @@ export const Home: NextPage = () => {
   return (
     <Layout>
       <Box
+        zIndex={1}
         minHeight={'100vh'}
         display={'flex'}
         justifyContent={'center'}
@@ -28,6 +28,7 @@ export const Home: NextPage = () => {
           flexDirection={'column'}
           paddingLeft={'16px'}
           paddingRight={'16px'}
+          zIndex={100}
         >
           <Heading as={'h1'} fontSize={'84px'}>
             Welcome to My Portfolio!
