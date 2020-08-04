@@ -18,9 +18,9 @@ export const Home: NextPage = () => {
         justifyContent={'center'}
         alignItems={'center'}
         flexDirection={'column'}
+        as={'main'}
       >
         <Box
-          as={'main'}
           flex={'1'}
           display={'flex'}
           justifyContent={'center'}
@@ -62,7 +62,6 @@ export const Home: NextPage = () => {
           </Box>
         </Box>
       </Box>
-      <Footer />
     </Layout>
   )
 }

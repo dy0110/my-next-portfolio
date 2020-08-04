@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
-import { Box, Text, theme } from '@chakra-ui/core'
+import { Box, Text, theme, useColorMode } from '@chakra-ui/core'
 import styled from '@emotion/styled'
+import { useEffect, useState } from 'react'
 
 const StyledBox = styled(Box)`
   :hover,
@@ -19,17 +20,28 @@ interface Props {
 }
 
 const HomeCard: NextPage<Props> = ({ title, content, onClick }) => {
+  const { colorMode } = useColorMode()
+  const [color, setColor] = useState(``)
+
+  useEffect(() => {
+    setColor(
+      colorMode === `light` ? theme.colors.white : theme.colors.gray[800]
+    )
+  }, [colorMode])
+
   return (
     <StyledBox
       margin={'1rem'}
       padding={`1.5rem`}
       textAlign={`left`}
       border={`1px`}
-      borderColor={`#eaeaea`}
+      borderColor={theme.colors.gray[200]}
       borderStyle={`solid`}
       borderRadius={`10px`}
       transition={`color 0.15s ease, border-color 0.15s ease`}
       onClick={onClick}
+      zIndex={2}
+      backgroundColor={color}
     >
       <Text as={'h3'} fontSize={`1.5rem`} marginBottom={`1rem`}>
         {title} &rarr;

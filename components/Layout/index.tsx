@@ -7,6 +7,7 @@ import { DiGithubBadge } from 'react-icons/di'
 import { FaSun, FaMoon } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import Footer from '../Fotter'
 
 const ParticlesNoSSR = dynamic(() => import('../Particles'), {
   ssr: false,
@@ -43,7 +44,7 @@ const Layout: NextPage<Props> = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>dy0110 Portfolio</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box
@@ -119,6 +120,7 @@ const Layout: NextPage<Props> = ({ children }) => {
       </Box>
       <ParticlesNoSSR />
       {children}
+      <Footer />
       <Global
         styles={`
       html,
@@ -127,7 +129,7 @@ const Layout: NextPage<Props> = ({ children }) => {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
           Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      color: ${textColor};
+        color: ${textColor};
       }
 
       #tsParticles{
