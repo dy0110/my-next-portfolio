@@ -3,7 +3,6 @@ import { NextPage } from 'next'
 import { Box, Heading, Text, Code } from '@chakra-ui/core'
 import Layout from '../components/Layout/index'
 import HomeCard from '../components/HomeCard/index'
-import Footer from '../components/Fotter'
 import { useRouter } from 'next/router'
 
 export const Home: NextPage = () => {
@@ -12,7 +11,6 @@ export const Home: NextPage = () => {
   return (
     <Layout>
       <Box
-        zIndex={1}
         minHeight={'100vh'}
         display={'flex'}
         justifyContent={'center'}
@@ -28,12 +26,11 @@ export const Home: NextPage = () => {
           flexDirection={'column'}
           paddingLeft={'16px'}
           paddingRight={'16px'}
-          zIndex={100}
         >
-          <Heading as={'h1'} fontSize={'84px'}>
+          <Heading as={'h1'} fontSize={'84px'} zIndex={1}>
             Welcome to My Portfolio!
           </Heading>
-          <Text fontSize="2xl" marginTop={`16px`}>
+          <Text fontSize="2xl" marginTop={`16px`} zIndex={1}>
             このサイトは <Code>dy0110</Code> のポートフォリオです
           </Text>
 

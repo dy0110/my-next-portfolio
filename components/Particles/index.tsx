@@ -1,5 +1,6 @@
 import React from 'react'
 import { tsParticles } from 'tsparticles'
+import { theme } from '@chakra-ui/core'
 
 const AppParticles: React.FC = () => {
   const onCanvasLoaded = (canvas: HTMLCanvasElement) => {
@@ -8,6 +9,22 @@ const AppParticles: React.FC = () => {
     }
 
     tsParticles.load('tsParticles', {
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: 'bubble',
+          },
+        },
+        modes: {
+          bubble: {
+            size: 8,
+            color: {
+              value: theme.colors.teal[200],
+            },
+          },
+        },
+      },
       particles: {
         color: {
           value: 'random',
