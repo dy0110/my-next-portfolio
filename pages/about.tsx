@@ -2,10 +2,15 @@ import { NextPage } from 'next'
 import Layout from '../components/Layout'
 import { Box, Image, theme, useColorMode, Heading } from '@chakra-ui/core'
 import { useState, useEffect } from 'react'
+import { getProfile } from '../gateways'
+import { ModelProfile } from '../gateways/type'
+import { parseHtmlStringToReactElement } from '../components/util/parce'
 
-interface Props {}
+interface Props {
+  profile: ModelProfile
+}
 
-const About: NextPage<Props> = () => {
+const About: NextPage<Props> = ({ profile }) => {
   const { colorMode } = useColorMode()
   const [color, setColor] = useState(``)
 
@@ -18,7 +23,6 @@ const About: NextPage<Props> = () => {
   return (
     <Layout>
       <Box
-        zIndex={1}
         minHeight={'100vh'}
         display={'flex'}
         justifyContent={'center'}
@@ -26,20 +30,23 @@ const About: NextPage<Props> = () => {
         flexDirection={'column'}
         as={'main'}
       >
-        <Heading marginBottom={`16px`}>プロフィール</Heading>
+        <Heading marginBottom={`16px`} zIndex={1}>
+          プロフィール
+        </Heading>
         <Box
-          size={'3xl'}
-          height={`52rem`}
+          width={[`360px`, `lg`, `xl`, `3xl`]}
           borderWidth={'1px'}
           borderColor={theme.colors.gray[200]}
           rounded={'lg'}
           backgroundColor={color}
           zIndex={2}
           padding={4}
+          flex={1}
+          marginBottom={'16px'}
         >
           <Image
             margin={`auto`}
-            src={'/image/profile.png'}
+            src={profile.image.url}
             rounded={'full'}
             size={`240px`}
           />
@@ -51,25 +58,17 @@ const About: NextPage<Props> = () => {
               lineHeight="tight"
               isTruncated
             >
-              dy0110
+              {profile.name}
             </Box>
             <Box mt="1" as="h4" lineHeight="tight" isTruncated>
-              生年月日: 1995/1/10
+              生年月日: {profile.birthday}
             </Box>
             <Box mt="1" as="h4" lineHeight="tight" isTruncated>
-              出身: 宮城県
+              出身: {profile.from}
             </Box>
 
             <Box mt="4">
-              都内のスタートアップ企業で働くフロントエンドエンジニア(17卒)
-              <br />
-              <br />
-              新卒でSI企業に未経験で入社、jQueryを使ったWebサイトのフロント側の実装やハイブリッドアプリ(Cordova)の開発に携わりました。
-              <br />
-              しかし、レガシーな開発環境や深夜残業が常態化していたのもあって退職、現職でフロントエンドエンジニアとしてReactのプロダクト開発に従事しています。
-              <br />
-              好きなことは コードを書くこと/ プラモデル/ ゲーム/ サッカー です。
-              特にプラモデルに関しては完成品をSNSに投稿して楽しんでいます。
+              {parseHtmlStringToReactElement(profile.Introduction)}
             </Box>
             <Box
               mt="4"
@@ -80,12 +79,7 @@ const About: NextPage<Props> = () => {
             >
               スキル
             </Box>
-            <Box mt="1">
-              フロントエンド: HTML, CSS, JavaScript(ES6), jQuery, Vue,
-              React/Next.js, TypeScript, Bootstrap, Redux
-              <br />
-              その他: Git, Cordova
-            </Box>
+            <Box mt="1">{parseHtmlStringToReactElement(profile.skills)}</Box>
             <Box
               mt="4"
               fontWeight="semibold"
@@ -95,18 +89,17 @@ const About: NextPage<Props> = () => {
             >
               興味のあること
             </Box>
-            <Box mt="1">
-              フロントエンド: graphql, web components ,WebAssembly
-              <br />
-              バックエンド: なにか言語を習得したい(Goとか)
-              <br />
-              その他: Rust, Ionic, ReactNative
-            </Box>
+            <Box mt="1">{parseHtmlStringToReactElement(profile.Interest)}</Box>
           </Box>
         </Box>
       </Box>
     </Layout>
   )
+}
+
+export const getStaticProps = async () => {
+  const { data } = await getProfile()
+  return { props: { profile: data } }
 }
 
 export default About

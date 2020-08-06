@@ -22,15 +22,17 @@
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
-      "yarn lint",
-      "yarn format"
+      "npm run lint",
+      "npm run format"
     ]
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "axios": "^0.19.2",
     "emotion-theming": "^10.0.27",
+    "html-react-parser": "^0.13.0",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

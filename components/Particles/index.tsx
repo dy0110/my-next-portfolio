@@ -20,7 +20,7 @@ const AppParticles: React.FC = () => {
           bubble: {
             size: 8,
             color: {
-              value: theme.colors.teal[200],
+              value: theme.colors.teal[300],
             },
           },
         },

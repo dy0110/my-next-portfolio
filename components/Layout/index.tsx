@@ -35,7 +35,9 @@ const Layout: NextPage<Props> = ({ children }) => {
   const [textColor, setTextColor] = useState(``)
 
   useEffect(() => {
-    setHeaderColor(colorMode === `light` ? theme.colors.teal[400] : colorMode)
+    setHeaderColor(
+      colorMode === `light` ? theme.colors.teal[400] : theme.colors.gray[800]
+    )
     setTextColor(
       colorMode === `light` ? theme.colors.gray[600] : theme.colors.white
     )
@@ -127,8 +129,7 @@ const Layout: NextPage<Props> = ({ children }) => {
       body {
         padding: 0;
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        font-family: Roboto;
         color: ${textColor};
       }
 
