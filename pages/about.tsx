@@ -42,7 +42,7 @@ const About: NextPage<Props> = ({ profile }) => {
           zIndex={2}
           padding={4}
           flex={1}
-          marginBottom={'16px'}
+          marginBottom={'24px'}
         >
           <Image
             margin={`auto`}
