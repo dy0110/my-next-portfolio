@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+import React from 'react'
 import { Box, Text, theme, useColorMode } from '@chakra-ui/core'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
@@ -19,7 +19,7 @@ interface Props {
   onClick: () => void
 }
 
-const HomeCard: NextPage<Props> = ({ title, content, onClick }) => {
+const HomeCard: React.FC<Props> = ({ title, content, onClick }) => {
   const { colorMode } = useColorMode()
   const [color, setColor] = useState(``)
 

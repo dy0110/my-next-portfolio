@@ -1,6 +1,14 @@
 import { NextPage, GetServerSideProps } from 'next'
 import Layout from '../../components/Layout'
-import { Box, Heading, useColorMode, theme, Button, Tag } from '@chakra-ui/core'
+import {
+  Box,
+  Heading,
+  useColorMode,
+  theme,
+  Button,
+  Tag,
+  Stack,
+} from '@chakra-ui/core'
 import { useState, useEffect } from 'react'
 import { getBlogList } from '../../gateways'
 import { ModelContents } from '../../gateways/type'
@@ -48,10 +56,10 @@ const Contents: NextPage<Props> = ({ data }) => {
         flexDirection={'column'}
         as={'main'}
       >
-        <Heading marginBottom={`16px`} zIndex={1}>
+        <Heading my={`16px`} zIndex={1}>
           投稿一覧
         </Heading>
-        <Box
+        <Stack
           width={[`360px`, `lg`, `xl`, `3xl`]}
           borderWidth={'1px'}
           borderColor={theme.colors.gray[200]}
@@ -61,10 +69,10 @@ const Contents: NextPage<Props> = ({ data }) => {
           padding={4}
           flex={1}
           marginBottom={'24px'}
-          display={'flex'}
-          alignItems={'center'}
-          flexDirection={'column'}
+          align={'center'}
+          direction={'column'}
           position={'relative'}
+          spacing={8}
         >
           <Box
             zIndex={3}
@@ -93,6 +101,132 @@ const Contents: NextPage<Props> = ({ data }) => {
             </Box>
           </Box>
           <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              2ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              3ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              4ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              5ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              6ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              7ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              8ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              9ブログタイトル
+            </Heading>
+          </Box>
+          <Box
+            zIndex={3}
+            borderWidth={'1px'}
+            borderColor={theme.colors.gray[200]}
+            rounded={'lg'}
+            width={`100%`}
+            height={'120px'}
+            padding={'8px'}
+            shadow={'sm'}
+          >
+            <Heading as="h4" size="md">
+              10ブログタイトル
+            </Heading>
+          </Box>
+          <Box
             display={'flex'}
             justifyContent={'space-between'}
             w={'100%'}
@@ -110,7 +244,7 @@ const Contents: NextPage<Props> = ({ data }) => {
                     router.push(`/contents/${page}`)
                   }}
                 >
-                  前へ
+                  前の10件
                 </Button>
               )}
             </div>
@@ -124,12 +258,12 @@ const Contents: NextPage<Props> = ({ data }) => {
                     router.push(`/contents/${page}`)
                   }}
                 >
-                  次へ
+                  次の10件
                 </Button>
               )}
             </div>
           </Box>
-        </Box>
+        </Stack>
       </Box>
     </Layout>
   )

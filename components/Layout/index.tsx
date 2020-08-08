@@ -134,9 +134,9 @@ const Layout: NextPage<Props> = ({ children }) => {
       }
 
       #tsParticles{
-        height: 100vh;
+       min-height:100vh;
         width: 100%;
-        position: absolute;
+        position: fixed;
       }
 
       @media (max-width: 600px) {

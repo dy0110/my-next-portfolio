@@ -31,6 +31,7 @@
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "axios": "^0.19.2",
+    "date-fns": "^2.15.0",
     "emotion-theming": "^10.0.27",
     "html-react-parser": "^0.13.0",
     "next": "latest",

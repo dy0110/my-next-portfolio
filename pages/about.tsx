@@ -30,7 +30,7 @@ const About: NextPage<Props> = ({ profile }) => {
         flexDirection={'column'}
         as={'main'}
       >
-        <Heading marginBottom={`16px`} zIndex={1}>
+        <Heading my={`16px`} zIndex={1}>
           プロフィール
         </Heading>
         <Box
