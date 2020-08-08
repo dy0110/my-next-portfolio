@@ -92,7 +92,7 @@ const Layout: NextPage<Props> = ({ children }) => {
             size="lg"
             marginLeft={'16px'}
             onClick={() => {
-              router.push(`/contents/${1}`)
+              router.push(`/contents/1`)
             }}
           >
             Blog

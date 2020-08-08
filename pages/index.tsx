@@ -53,7 +53,7 @@ export const Home: NextPage = () => {
               title={`Blog`}
               content={`ブログについてはこちら`}
               onClick={() => {
-                router.push(`/contents/${1}`)
+                router.push(`/contents/1`)
               }}
             />
           </Box>

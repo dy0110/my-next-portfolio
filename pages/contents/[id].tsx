@@ -6,7 +6,6 @@ import {
   useColorMode,
   theme,
   Button,
-  Tag,
   Stack,
 } from '@chakra-ui/core'
 import { useState, useEffect } from 'react'
@@ -14,13 +13,8 @@ import { getBlogList } from '../../gateways'
 import { ModelContents } from '../../gateways/type'
 import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
-import styled from '@emotion/styled'
-
-const ContentTag = styled(Tag)`
-  & + & {
-    margin-left: 4px;
-  }
-`
+import ContentCard from '../../components/ContentCard'
+import { parseISO, format } from 'date-fns'
 
 interface Props {
   data: ModelContents
@@ -33,8 +27,6 @@ const Contents: NextPage<Props> = ({ data }) => {
   const router = useRouter()
   const { id } = router.query
 
-  console.log(data)
-  // sliceメソッド使う
   const { contents, limit, offset, totalCount } = data
 
   const { colorMode } = useColorMode()
@@ -74,158 +66,25 @@ const Contents: NextPage<Props> = ({ data }) => {
           position={'relative'}
           spacing={8}
         >
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              ブログタイトル
-            </Heading>
-            <Box my={'8px'}>2020/8/7 11:20</Box>
-            <Box marginTop={'8px'}>
-              <ContentTag size={'sm'} rounded="full" variantColor="teal">
-                タグ１
-              </ContentTag>
-              <ContentTag size={'sm'} rounded="full" variantColor="teal">
-                タグ２
-              </ContentTag>
-              <ContentTag size={'sm'} rounded="full" variantColor="teal">
-                タグ３
-              </ContentTag>
-            </Box>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              2ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              3ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              4ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              5ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              6ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              7ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              8ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              9ブログタイトル
-            </Heading>
-          </Box>
-          <Box
-            zIndex={3}
-            borderWidth={'1px'}
-            borderColor={theme.colors.gray[200]}
-            rounded={'lg'}
-            width={`100%`}
-            height={'120px'}
-            padding={'8px'}
-            shadow={'sm'}
-          >
-            <Heading as="h4" size="md">
-              10ブログタイトル
-            </Heading>
-          </Box>
+          {contents.slice(0, 10).map((content, index) => (
+            <ContentCard
+              key={index}
+              contentId={content.id}
+              title={content.title}
+              createDate={format(parseISO(content.createdAt), 'yyyy/M/d H:m')}
+              tags={content.tag?.split(',')}
+              onClick={(contentId) => {
+                console.log(contentId) // TODO 記事に遷移させる
+              }}
+              onClickTag={(tag) => {
+                router.push({
+                  pathname: `/contents/${id}`,
+                  query: { tag: encodeURI(tag) },
+                })
+              }}
+            />
+          ))}
+
           <Box
             display={'flex'}
             justifyContent={'space-between'}
@@ -271,10 +130,11 @@ const Contents: NextPage<Props> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
+  query,
   res,
 }) => {
   try {
-    const { data } = await getBlogList(Number(params.id))
+    const { data } = await getBlogList(Number(params.id), query.tag as string)
     return { props: { data: data } }
   } catch {
     res.statusCode = 404

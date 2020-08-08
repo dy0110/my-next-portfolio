@@ -19,7 +19,7 @@ export interface ModelProfile {
 export interface ModelBlogList {
   id: string
   title: string
-  tag: string
+  tag?: string
   createdAt: string
   updatedAt: string
 }

@@ -3,8 +3,8 @@ import { ModelProfile, ModelContents } from './type'
 
 const X_API_KEY: string = process.env.X_API_KEY || ''
 
-export const getProfile = (): Promise<AxiosResponse<ModelProfile>> => {
-  const Response = axios.get(
+export const getProfile = async (): Promise<AxiosResponse<ModelProfile>> => {
+  const Response = await axios.get(
     'https://dy01110ym.microcms.io/api/v1/profile/ueanzvkhbf',
     {
       headers: {
@@ -17,14 +17,21 @@ export const getProfile = (): Promise<AxiosResponse<ModelProfile>> => {
   return Response
 }
 
-export const getBlogList = (
-  page: number
+export const getBlogList = async (
+  page: number,
+  tag?: string
 ): Promise<AxiosResponse<ModelContents>> => {
-  const limit = page * 10 + 1
-  const offset = page === 1 ? 0 : (page - 1) * 10
+  const offset = page === 1 ? 0 : (page - 1) * 10 + 1
+  const filters = tag ? `&filters=tag[contains]${tag}` : ''
+  console.log('tag', tag)
+  console.log('filters', filters)
+  console.log(
+    'url',
+    `https://dy01110ym.microcms.io/api/v1/posts?fields=id,title,tag,createdAt,updatedAt&limit=11&offset=${offset}${filters}`
+  )
 
-  const Response = axios.get(
-    `https://dy01110ym.microcms.io/api/v1/posts?fields=id,title,tag,createdAt,updatedAt&limit=${limit}&offset=${offset}`,
+  const Response = await axios.get(
+    `https://dy01110ym.microcms.io/api/v1/posts?fields=id,title,tag,createdAt,updatedAt&limit=11&offset=${offset}${filters}`,
     {
       headers: {
         'Content-type': 'application/json',

@@ -1,24 +1,39 @@
 import React from 'react'
 import { Box, theme, Tag, Heading } from '@chakra-ui/core'
-import { formatDate } from '../util/date'
 import styled from '@emotion/styled'
 
 const ContentTag = styled(Tag)`
   & + & {
     margin-left: 4px;
   }
+  cursor: pointer;
+`
+
+const ContentBox = styled(Box)`
+  & + & {
+    margin-top: 16px;
+  }
 `
 
 interface Props {
   title: string
   createDate: string
-  id: string
+  contentId: string
+  onClick: (contentId: string) => void
+  onClickTag: (tag: string) => void
   tags?: string[] | undefined
 }
 
-const ContentCard: React.FC<Props> = ({ title, tags, createDate, id }) => {
+const ContentCard: React.FC<Props> = ({
+  title,
+  tags,
+  createDate,
+  contentId,
+  onClick,
+  onClickTag,
+}) => {
   return (
-    <Box
+    <ContentBox
       zIndex={3}
       borderWidth={'1px'}
       borderColor={theme.colors.gray[200]}
@@ -28,29 +43,30 @@ const ContentCard: React.FC<Props> = ({ title, tags, createDate, id }) => {
       padding={'8px'}
       shadow={'sm'}
       onClick={() => {
-        console.log(id)
+        onClick(contentId)
       }}
     >
       <Heading as="h4" size="md">
         {title}
       </Heading>
-      <Box my={'8px'}>{formatDate(createDate)}</Box>
+      <Box my={'8px'}>{createDate}</Box>
       <Box marginTop={'8px'}>
-        {tags.map((tag, index) => (
-          <ContentTag
-            size={'sm'}
-            rounded="full"
-            variantColor="teal"
-            key={index}
-            onClick={() => {
-              console.log(tag)
-            }}
-          >
-            タグ１
-          </ContentTag>
-        ))}
+        {tags &&
+          tags.map((tag, index) => (
+            <ContentTag
+              size={'sm'}
+              rounded="full"
+              variantColor="teal"
+              key={index}
+              onClick={() => {
+                onClickTag(tag)
+              }}
+            >
+              {tag}
+            </ContentTag>
+          ))}
       </Box>
-    </Box>
+    </ContentBox>
   )
 }
 
