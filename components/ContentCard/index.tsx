@@ -13,6 +13,13 @@ const ContentBox = styled(Box)`
   & + & {
     margin-top: 16px;
   }
+  :hover,
+  :active,
+  :focus {
+    color: ${theme.colors.teal[400]};
+    border-color: ${theme.colors.teal[400]};
+  }
+  transition: color 0.15s ease, border-color 0.15s ease;
 `
 
 interface Props {

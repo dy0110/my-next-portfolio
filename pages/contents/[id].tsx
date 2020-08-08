@@ -11,10 +11,10 @@ import {
 import { useState, useEffect } from 'react'
 import { getBlogList } from '../../gateways'
 import { ModelContents } from '../../gateways/type'
-import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import ContentCard from '../../components/ContentCard'
 import { parseISO, format } from 'date-fns'
+import Custom404 from '../404'
 
 interface Props {
   data: ModelContents
@@ -22,7 +22,7 @@ interface Props {
 
 const Contents: NextPage<Props> = ({ data }) => {
   if (!data) {
-    return <ErrorPage statusCode={404} />
+    return <Custom404 />
   }
   const router = useRouter()
   const { id } = router.query
