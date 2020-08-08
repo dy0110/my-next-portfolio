@@ -7,43 +7,44 @@ const AppParticles: React.FC = () => {
     if (!canvas) {
       return
     }
-
-    tsParticles.load('tsParticles', {
-      interactivity: {
-        events: {
-          onHover: {
-            enable: true,
-            mode: 'bubble',
+    setTimeout(() => {
+      tsParticles.load('tsParticles', {
+        interactivity: {
+          events: {
+            onHover: {
+              enable: true,
+              mode: 'bubble',
+            },
           },
-        },
-        modes: {
-          bubble: {
-            size: 8,
-            color: {
-              value: theme.colors.teal[300],
+          modes: {
+            bubble: {
+              size: 8,
+              color: {
+                value: theme.colors.teal[300],
+              },
             },
           },
         },
-      },
-      particles: {
-        color: {
-          value: 'random',
-        },
-        links: {
+        particles: {
           color: {
             value: 'random',
           },
-          enable: true,
-          opacity: 0.8,
+          links: {
+            color: {
+              value: 'random',
+            },
+            enable: true,
+            opacity: 0.8,
+          },
+          move: {
+            enable: true,
+          },
+          size: {
+            value: 3,
+          },
         },
-        move: {
-          enable: true,
-        },
-        size: {
-          value: 3,
-        },
-      },
-    })
+      })
+    }, 200)
   }
 
   return (

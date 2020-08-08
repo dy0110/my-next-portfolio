@@ -1,5 +1,3 @@
-import { Interface } from 'readline'
-
 export interface ModelProfile {
   Interest: string
   Introduction: string
@@ -16,7 +14,7 @@ export interface ModelProfile {
   updatedAt: string
 }
 
-export interface ModelBlogList {
+export interface ModelContent {
   id: string
   title: string
   tag?: string
@@ -25,8 +23,12 @@ export interface ModelBlogList {
 }
 
 export interface ModelContents {
-  contents: ModelBlogList[]
+  contents: ModelContent[]
   limit: number
   offset: number
   totalCount: number
+}
+
+export interface ModelPost extends ModelContent {
+  content: string
 }

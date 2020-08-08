@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 import ContentCard from '../../components/ContentCard'
 import { parseISO, format } from 'date-fns'
 import Custom404 from '../404'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
 interface Props {
   data: ModelContents
@@ -74,7 +75,7 @@ const Contents: NextPage<Props> = ({ data }) => {
               createDate={format(parseISO(content.createdAt), 'yyyy/M/d H:m')}
               tags={content.tag?.split(',')}
               onClick={(contentId) => {
-                console.log(contentId) // TODO 記事に遷移させる
+                router.push(`/posts/${contentId}`)
               }}
               onClickTag={(tag) => {
                 router.push({
@@ -102,6 +103,7 @@ const Contents: NextPage<Props> = ({ data }) => {
                     const page = Number(id) - 1
                     router.push(`/contents/${page}`)
                   }}
+                  leftIcon={FaArrowLeft}
                 >
                   前の10件
                 </Button>
@@ -113,9 +115,9 @@ const Contents: NextPage<Props> = ({ data }) => {
                   variantColor="teal"
                   variant="ghost"
                   onClick={() => {
-                    const page = Number(id) + 1
-                    router.push(`/contents/${page}`)
+                    router.back()
                   }}
+                  rightIcon={FaArrowRight}
                 >
                   次の10件
                 </Button>
@@ -133,9 +135,11 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   res,
 }) => {
+  let Fetching = true
   try {
     const { data } = await getBlogList(Number(params.id), query.tag as string)
-    return { props: { data: data } }
+    Fetching = false
+    return { props: { data: data, Fetching } }
   } catch {
     res.statusCode = 404
     return {

@@ -21,6 +21,8 @@ export const Loader = styled.div`
   top: 0;
   left: 0;
   background: ${theme.colors.white};
+  z-index: 10;
+  position: absolute;
 `
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
@@ -48,7 +50,17 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     <ThemeProvider>
       <ColorModeProvider>
         <CSSReset />
-        {loading ? (
+        <Component {...pageProps} />
+        {loading && (
+          <Loader>
+            <BounceLoader
+              size={150}
+              color={theme.colors.teal[400]}
+              loading={loading}
+            />
+          </Loader>
+        )}
+        {/* {loading ? (
           <Loader>
             <BounceLoader
               size={150}
@@ -58,7 +70,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           </Loader>
         ) : (
           <Component {...pageProps} />
-        )}
+        )} */}
       </ColorModeProvider>
     </ThemeProvider>
   )
