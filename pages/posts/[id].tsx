@@ -63,6 +63,7 @@ const Post: NextPage<Props> = ({ data }) => {
           display={'flex'}
           flexDirection={'column'}
           marginTop={`24px`}
+          position={'relative'}
         >
           <Heading as="h2" size="xl">
             {title}
@@ -82,15 +83,10 @@ const Post: NextPage<Props> = ({ data }) => {
               </ContentTag>
             ))}
           </Box>
-          <Box marginTop={'16px'}>{parseHtmlStringToReactElement(content)}</Box>
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            w={'100%'}
-            position={'absolute'}
-            bottom={'16px'}
-            px={'4px'}
-          >
+          <Box marginTop={'16px'} px={'16px'} flex={1} marginBottom={'28px'}>
+            {parseHtmlStringToReactElement(content)}
+          </Box>
+          <Box display={'flex'} position={'absolute'} bottom={'4px'} px={'4px'}>
             <div>
               <Button
                 variantColor="teal"

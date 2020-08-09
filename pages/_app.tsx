@@ -6,7 +6,7 @@ import {
   ColorModeProvider,
   theme,
 } from '@chakra-ui/core'
-import Router from 'next/router' //TODO ローディングを作る
+import Router from 'next/router'
 import BounceLoader from 'react-spinners/BounceLoader'
 import styled from '@emotion/styled'
 
@@ -22,7 +22,6 @@ export const Loader = styled.div`
   left: 0;
   background: ${theme.colors.white};
   z-index: 10;
-  position: absolute;
 `
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
@@ -60,17 +59,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
             />
           </Loader>
         )}
-        {/* {loading ? (
-          <Loader>
-            <BounceLoader
-              size={150}
-              color={theme.colors.teal[400]}
-              loading={loading}
-            />
-          </Loader>
-        ) : (
-          <Component {...pageProps} />
-        )} */}
       </ColorModeProvider>
     </ThemeProvider>
   )
