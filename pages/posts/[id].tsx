@@ -1,4 +1,4 @@
-import { NextPage, GetServerSideProps } from 'next'
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
 import { Box, Heading, useColorMode, theme, Tag, Button } from '@chakra-ui/core'
 import { ModelPost } from '../../gateways/type'
@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { parseHtmlStringToReactElement } from '../../components/util/parce'
 import { format, parseISO } from 'date-fns'
 import { FaArrowLeft } from 'react-icons/fa'
+import Loading from '../../components/Loader'
 
 const ContentTag = styled(Tag)`
   & + & {
@@ -19,17 +20,20 @@ const ContentTag = styled(Tag)`
 
 interface Props {
   data: ModelPost
+  statusCode: number
 }
 
-const Post: NextPage<Props> = ({ data }) => {
+const Post: NextPage<Props> = ({ data, statusCode }) => {
   if (!data) {
+    return <Loading loading={true} />
+  }
+
+  if (statusCode === 404) {
     return <Custom404 />
   }
 
   const router = useRouter()
   const { title, tag, createdAt, content } = data
-
-  console.log(data)
 
   const { colorMode } = useColorMode()
   const [color, setColor] = useState(``)
@@ -105,19 +109,19 @@ const Post: NextPage<Props> = ({ data }) => {
     </Layout>
   )
 }
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  }
+}
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  res,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const { data } = await getBlogPost(params.id as string)
-    return { props: { data: data } }
+    const { data, status } = await getBlogPost(params.id as string)
+    return { props: { data: data, statusCode: status } }
   } catch {
-    res.statusCode = 404
-    return {
-      props: {},
-    }
+    return { props: { statusCode: 404 } }
   }
 }
 

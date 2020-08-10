@@ -22,7 +22,7 @@ export const getBlogList = async (
   tag?: string
 ): Promise<AxiosResponse<ModelContents>> => {
   const offset = page === 1 ? 0 : (page - 1) * 10 + 1
-  const filters = tag ? `&filters=tag[contains]${tag}` : ''
+  const filters = tag ? `&filters=tag[contains]${encodeURI(tag)}` : ''
 
   const Response = await axios.get(
     `https://dy01110ym.microcms.io/api/v1/posts?fields=id,title,tag,createdAt,updatedAt&limit=11&offset=${offset}${filters}`,
