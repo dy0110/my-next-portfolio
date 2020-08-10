@@ -1,13 +1,6 @@
-import { NextPage, GetServerSideProps } from 'next'
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
-import {
-  Box,
-  Heading,
-  useColorMode,
-  theme,
-  Button,
-  Stack,
-} from '@chakra-ui/core'
+import { Box, useColorMode, theme, Button, Stack } from '@chakra-ui/core'
 import { useState, useEffect } from 'react'
 import { getBlogList } from '../../gateways'
 import { ModelContents } from '../../gateways/type'
@@ -16,17 +9,24 @@ import ContentCard from '../../components/ContentCard'
 import { parseISO, format } from 'date-fns'
 import Custom404 from '../404'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import Loading from '../../components/Loader'
 
 interface Props {
   data: ModelContents
+  statusCode: number
 }
 
-const Contents: NextPage<Props> = ({ data }) => {
+const Contents: NextPage<Props> = ({ data, statusCode }) => {
   if (!data) {
+    return <Loading loading={true} />
+  }
+
+  if (statusCode === 404) {
     return <Custom404 />
   }
+
   const router = useRouter()
-  const { id } = router.query
+  const [id, tag] = router.query.id as string[]
 
   const { contents, limit, offset, totalCount } = data
 
@@ -49,9 +49,6 @@ const Contents: NextPage<Props> = ({ data }) => {
         flexDirection={'column'}
         as={'main'}
       >
-        <Heading my={`16px`} zIndex={1}>
-          投稿一覧
-        </Heading>
         <Stack
           width={[`360px`, `lg`, `xl`, `3xl`]}
           borderWidth={'1px'}
@@ -59,14 +56,19 @@ const Contents: NextPage<Props> = ({ data }) => {
           rounded={'lg'}
           backgroundColor={color}
           zIndex={2}
-          padding={4}
+          paddingTop={12}
+          paddingBottom={4}
+          px={4}
           flex={1}
-          marginBottom={'24px'}
+          my={'24px'}
           align={'center'}
           direction={'column'}
           position={'relative'}
           spacing={8}
         >
+          <Box position={'absolute'} left={'12px'} top={`4px`}>
+            {tag ? ` タグ: ${tag} ${contents.length}件` : `投稿一覧`}
+          </Box>
           {contents.slice(0, 10).map((content, index) => (
             <ContentCard
               key={index}
@@ -74,14 +76,8 @@ const Contents: NextPage<Props> = ({ data }) => {
               title={content.title}
               createDate={format(parseISO(content.createdAt), 'yyyy/M/d H:m')}
               tags={content.tag?.split(',')}
-              onClick={(contentId) => {
-                router.push(`/posts/${contentId}`)
-              }}
               onClickTag={(tag) => {
-                router.push({
-                  pathname: `/contents/${id}`,
-                  query: { tag: encodeURI(tag) },
-                })
+                router.push(`/contents/${id}/${tag}`)
               }}
             />
           ))}
@@ -89,7 +85,6 @@ const Contents: NextPage<Props> = ({ data }) => {
           <Box
             display={'flex'}
             justifyContent={'space-between'}
-            w={'100%'}
             position={'absolute'}
             bottom={'16px'}
             px={'4px'}
@@ -130,20 +125,21 @@ const Contents: NextPage<Props> = ({ data }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  query,
-  res,
-}) => {
-  let Fetching = true
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [{ params: { id: ['1'] } }],
+    fallback: true,
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const { data } = await getBlogList(Number(params.id), query.tag as string)
-    Fetching = false
-    return { props: { data: data, Fetching } }
+    const [id, tag] = params.id as string[]
+    const { data, status } = await getBlogList(Number(id), tag)
+    return { props: { data: data, statusCode: status } }
   } catch {
-    res.statusCode = 404
     return {
-      props: {},
+      props: { statusCode: 404 },
     }
   }
 }

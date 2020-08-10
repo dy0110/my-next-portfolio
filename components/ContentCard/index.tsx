@@ -1,6 +1,8 @@
 import React from 'react'
-import { Box, theme, Tag, Heading } from '@chakra-ui/core'
+import { Box, theme, Tag, Link as ChakraLink, Icon } from '@chakra-ui/core'
 import styled from '@emotion/styled'
+import Link from 'next/link'
+import { FaArrowRight } from 'react-icons/fa'
 
 const ContentTag = styled(Tag)`
   & + & {
@@ -13,20 +15,20 @@ const ContentBox = styled(Box)`
   & + & {
     margin-top: 16px;
   }
-  :hover,
-  :active,
-  :focus {
-    color: ${theme.colors.teal[400]};
-    border-color: ${theme.colors.teal[400]};
-  }
-  transition: color 0.15s ease, border-color 0.15s ease;
+`
+
+const TitleLink = styled(ChakraLink)`
+  font-size: 24px;
+`
+
+const BottomLink = styled(ChakraLink)`
+  font-size: 16px;
 `
 
 interface Props {
   title: string
   createDate: string
   contentId: string
-  onClick: (contentId: string) => void
   onClickTag: (tag: string) => void
   tags?: string[] | undefined
 }
@@ -36,7 +38,6 @@ const ContentCard: React.FC<Props> = ({
   tags,
   createDate,
   contentId,
-  onClick,
   onClickTag,
 }) => {
   return (
@@ -46,16 +47,14 @@ const ContentCard: React.FC<Props> = ({
       borderColor={theme.colors.gray[200]}
       rounded={'lg'}
       width={`100%`}
-      height={'120px'}
+      height={'160px'}
       padding={'8px'}
       shadow={'sm'}
-      onClick={() => {
-        onClick(contentId)
-      }}
+      position={'relative'}
     >
-      <Heading as="h4" size="md">
-        {title}
-      </Heading>
+      <Link href={`/posts/[id]`} as={`/posts/${contentId}`}>
+        <TitleLink color={theme.colors.teal[500]}>{title}</TitleLink>
+      </Link>
       <Box my={'8px'}>{createDate}</Box>
       <Box marginTop={'8px'}>
         {tags &&
@@ -72,6 +71,11 @@ const ContentCard: React.FC<Props> = ({
               {tag}
             </ContentTag>
           ))}
+      </Box>
+      <Box position={'absolute'} left={`8px`} bottom={`8px`}>
+        <Link href={`/posts/[id]`} as={`/posts/${contentId}`}>
+          <BottomLink color={theme.colors.teal[500]}>全文を見る</BottomLink>
+        </Link>
       </Box>
     </ContentBox>
   )

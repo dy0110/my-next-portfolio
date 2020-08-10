@@ -1,6 +1,13 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Box, theme, IconButton, useColorMode, Button } from '@chakra-ui/core'
+import {
+  Box,
+  theme,
+  IconButton,
+  useColorMode,
+  Button,
+  Link as ChakraLink,
+} from '@chakra-ui/core'
 import Head from 'next/head'
 import { Global } from '@emotion/core'
 import { DiGithubBadge } from 'react-icons/di'
@@ -8,6 +15,16 @@ import { FaSun, FaMoon } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Footer from '../Fotter'
+import Link from 'next/link'
+import styled from '@emotion/styled'
+
+const LayoutLink = styled(ChakraLink)`
+  font-weight: 600;
+  font-size: 20px;
+  & + & {
+    margin-left: 16px;
+  }
+`
 
 const ParticlesNoSSR = dynamic(() => import('../Particles'), {
   ssr: false,
@@ -62,41 +79,15 @@ const Layout: NextPage<Props> = ({ children }) => {
         justifyContent={'space-between'}
       >
         <Box>
-          <Button
-            variantColor="teal"
-            variant="link"
-            color={theme.colors.white}
-            size="lg"
-            onClick={() => {
-              router.push('/')
-            }}
-          >
-            Home
-          </Button>
-          <Button
-            variantColor="teal"
-            variant="link"
-            color={theme.colors.white}
-            size="lg"
-            marginLeft={'16px'}
-            onClick={() => {
-              router.push('/about')
-            }}
-          >
-            About
-          </Button>
-          <Button
-            variantColor="teal"
-            variant="link"
-            color={theme.colors.white}
-            size="lg"
-            marginLeft={'16px'}
-            onClick={() => {
-              router.push(`/contents/1`)
-            }}
-          >
-            Blog
-          </Button>
+          <Link href={'/'}>
+            <LayoutLink color={theme.colors.white}>Home</LayoutLink>
+          </Link>
+          <Link href={'/about'}>
+            <LayoutLink color={theme.colors.white}>About</LayoutLink>
+          </Link>
+          <Link href={'/contents/[id]'} as={`/contents/1`}>
+            <LayoutLink color={theme.colors.white}>Blog</LayoutLink>
+          </Link>
         </Box>
         <Box>
           <IconButton
