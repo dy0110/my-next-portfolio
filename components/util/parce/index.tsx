@@ -69,8 +69,8 @@ export const parseHtmlStringToReactElement = (Text: string) => {
         return <Code mx={'4px'}>{domToReact(domNode.children)}</Code>
       }
 
-      if (domNode.name === 'p') {
-        domNode.attribs.className = 'paragraph'
+      if (domNode.name === 'img') {
+        domNode.attribs.style = 'margin: auto;'
       }
     },
   })
