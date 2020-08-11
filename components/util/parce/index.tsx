@@ -60,7 +60,7 @@ export const parseHtmlStringToReactElement = (Text: string) => {
       if (domNode.name === 'h5') {
         return (
           <Heading as={'h5'} size={'sm'} my={'4px'}>
-            In love with React & Next
+            {domToReact(domNode.children)}
           </Heading>
         )
       }
