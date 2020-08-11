@@ -7,6 +7,7 @@ import { ModelContents } from '../../gateways/type'
 import { useRouter } from 'next/router'
 import ContentCard from '../../components/ContentCard'
 import { parseISO, format } from 'date-fns'
+import ja from 'date-fns/locale/ja'
 import Custom404 from '../404'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import Loading from '../../components/Loader'
@@ -74,7 +75,13 @@ const Contents: NextPage<Props> = ({ data, statusCode }) => {
               key={index}
               contentId={content.id}
               title={content.title}
-              createDate={format(parseISO(content.createdAt), 'yyyy/M/d H:m')}
+              createDate={format(
+                parseISO(content.createdAt),
+                'yyyy/MM/dd HH:mm',
+                {
+                  locale: ja,
+                }
+              )}
               tags={content.tag?.split(',')}
               onClickTag={(tag) => {
                 router.push(`/contents/${id}/${tag}`)

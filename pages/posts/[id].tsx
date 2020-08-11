@@ -9,6 +9,7 @@ import { getBlogPost } from '../../gateways'
 import styled from '@emotion/styled'
 import { parseHtmlStringToReactElement } from '../../components/util/parce'
 import { format, parseISO } from 'date-fns'
+import ja from 'date-fns/locale/ja'
 import { FaArrowLeft } from 'react-icons/fa'
 import Loading from '../../components/Loader'
 
@@ -33,7 +34,7 @@ const Post: NextPage<Props> = ({ data, statusCode }) => {
   }
 
   const router = useRouter()
-  const { title, tag, createdAt, content } = data
+  const { title, tag, createdAt, content, updatedAt } = data
 
   const { colorMode } = useColorMode()
   const [color, setColor] = useState(``)
@@ -73,7 +74,16 @@ const Post: NextPage<Props> = ({ data, statusCode }) => {
             {title}
           </Heading>
           <Heading as="h4" size="sm" marginTop={'8px'}>
-            {format(parseISO(createdAt), 'yyyy/M/d H:m')}
+            作成日：
+            {format(parseISO(createdAt), 'yyyy/MM/dd HH:mm', {
+              locale: ja,
+            })}
+          </Heading>
+          <Heading as="h4" size="sm" marginTop={'8px'}>
+            更新日：
+            {format(parseISO(updatedAt), 'yyyy/MM/dd HH:mm', {
+              locale: ja,
+            })}
           </Heading>
           <Box marginTop={'16px'}>
             {tag?.split(',').map((item, index) => (
