@@ -1,8 +1,7 @@
 import React from 'react'
-import { Box, theme, Tag, Link as ChakraLink, Icon } from '@chakra-ui/core'
+import { Box, theme, Tag, Link as ChakraLink } from '@chakra-ui/core'
 import styled from '@emotion/styled'
 import Link from 'next/link'
-import { FaArrowRight } from 'react-icons/fa'
 
 const ContentTag = styled(Tag)`
   & + & {
