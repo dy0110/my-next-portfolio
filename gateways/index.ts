@@ -39,3 +39,14 @@ export const getBlogPost = async (
 
   return Response
 }
+
+export const getPreviewBlogPost = async (
+  id: string,
+  draftKey: string
+): Promise<AxiosResponse<ModelPost>> => {
+  const Response = await instance.get<ModelPost>(
+    `/posts/${id}?draftKey=${draftKey}`
+  )
+
+  return Response
+}

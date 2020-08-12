@@ -1,11 +1,19 @@
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
-import { Box, Heading, useColorMode, theme, Tag, Button } from '@chakra-ui/core'
+import {
+  Box,
+  Heading,
+  useColorMode,
+  theme,
+  Tag,
+  Button,
+  useToast,
+} from '@chakra-ui/core'
 import { ModelPost } from '../../gateways/type'
 import Custom404 from '../404'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { getBlogPost } from '../../gateways'
+import { getBlogPost, getPreviewBlogPost } from '../../gateways'
 import styled from '@emotion/styled'
 import { parseHtmlStringToReactElement } from '../../components/util/parce'
 import { format, parseISO } from 'date-fns'
@@ -22,9 +30,12 @@ const ContentTag = styled(Tag)`
 interface Props {
   data: ModelPost
   statusCode: number
+  preview: boolean
 }
 
-const Post: NextPage<Props> = ({ data, statusCode }) => {
+const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
+  const toast = useToast()
+
   if (!data) {
     return <Loading loading={true} />
   }
@@ -44,6 +55,18 @@ const Post: NextPage<Props> = ({ data, statusCode }) => {
       colorMode === `light` ? theme.colors.white : theme.colors.gray[800]
     )
   }, [colorMode])
+
+  useEffect(() => {
+    if (preview) {
+      toast({
+        position: 'top',
+        title: '記事のプレビュー中',
+        status: 'error',
+        duration: null,
+        isClosable: true,
+      })
+    }
+  }, [preview])
 
   return (
     <Layout>
@@ -100,20 +123,27 @@ const Post: NextPage<Props> = ({ data, statusCode }) => {
           <Box marginTop={'16px'} px={'16px'} flex={1} marginBottom={'28px'}>
             {parseHtmlStringToReactElement(content)}
           </Box>
-          <Box display={'flex'} position={'absolute'} bottom={'4px'} px={'4px'}>
-            <div>
-              <Button
-                variantColor="teal"
-                variant="ghost"
-                onClick={() => {
-                  router.push(`/contents/1`)
-                }}
-                leftIcon={FaArrowLeft}
-              >
-                戻る
-              </Button>
-            </div>
-          </Box>
+          {!preview && (
+            <Box
+              display={'flex'}
+              position={'absolute'}
+              bottom={'4px'}
+              px={'4px'}
+            >
+              <div>
+                <Button
+                  variantColor="teal"
+                  variant="ghost"
+                  onClick={() => {
+                    router.push(`/contents/1`)
+                  }}
+                  leftIcon={FaArrowLeft}
+                >
+                  戻る
+                </Button>
+              </div>
+            </Box>
+          )}
         </Box>
       </Box>
     </Layout>
@@ -126,10 +156,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview,
+  previewData,
+}) => {
   try {
-    const { data, status } = await getBlogPost(params.id as string)
-    return { props: { data: data, statusCode: status } }
+    if (preview) {
+      const { data, status } = await getPreviewBlogPost(
+        params.id as string,
+        previewData.draftKey
+      )
+      return { props: { data: data, statusCode: status } }
+    } else {
+      const { data, status } = await getBlogPost(params.id as string)
+      return { props: { data: data, statusCode: status } }
+    }
   } catch {
     return { props: { statusCode: 404 } }
   }
