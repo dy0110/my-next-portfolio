@@ -3,16 +3,17 @@ import { ModelProfile, ModelContents, ModelPost } from './type'
 
 const X_API_KEY: string = process.env.X_API_KEY || ''
 
+const instance = axios.create({
+  baseURL: 'https://dy01110ym.microcms.io/api/v1',
+  timeout: 1000,
+  headers: {
+    'Content-type': 'application/json',
+    'X-API-KEY': X_API_KEY,
+  },
+})
+
 export const getProfile = async (): Promise<AxiosResponse<ModelProfile>> => {
-  const Response = await axios.get(
-    'https://dy01110ym.microcms.io/api/v1/profile/ueanzvkhbf',
-    {
-      headers: {
-        'Content-type': 'application/json',
-        'X-API-KEY': X_API_KEY,
-      },
-    }
-  )
+  const Response = await instance.get<ModelProfile>('/profile/ueanzvkhbf')
 
   return Response
 }
@@ -24,14 +25,8 @@ export const getBlogList = async (
   const offset = page === 1 ? 0 : (page - 1) * 10 + 1
   const filters = tag ? `&filters=tag[contains]${encodeURI(tag)}` : ''
 
-  const Response = await axios.get(
-    `https://dy01110ym.microcms.io/api/v1/posts?fields=id,title,tag,createdAt,updatedAt&limit=11&offset=${offset}${filters}`,
-    {
-      headers: {
-        'Content-type': 'application/json',
-        'X-API-KEY': X_API_KEY,
-      },
-    }
+  const Response = await instance.get<ModelContents>(
+    `/posts?fields=id,title,tag,createdAt,updatedAt&limit=11&offset=${offset}${filters}`
   )
 
   return Response
@@ -40,15 +35,7 @@ export const getBlogList = async (
 export const getBlogPost = async (
   id: string
 ): Promise<AxiosResponse<ModelPost>> => {
-  const Response = await axios.get(
-    `https://dy01110ym.microcms.io/api/v1/posts/${id}`,
-    {
-      headers: {
-        'Content-type': 'application/json',
-        'X-API-KEY': X_API_KEY,
-      },
-    }
-  )
+  const Response = await instance.get<ModelPost>(`/posts/${id}`)
 
   return Response
 }
