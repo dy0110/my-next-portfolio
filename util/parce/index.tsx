@@ -66,7 +66,15 @@ export const parseHtmlStringToReactElement = (Text: string) => {
       }
 
       if (domNode.name === 'code') {
-        return <Code mx={'4px'}>{domToReact(domNode.children)}</Code>
+        return domNode.parent.name === 'pre' ? (
+          <Code my={'8px'} width={'100%'}>
+            {domToReact(domNode.children)}
+          </Code>
+        ) : (
+          <Code mx={'4px'} variantColor={'cyan'}>
+            {domToReact(domNode.children)}
+          </Code>
+        )
       }
 
       if (domNode.name === 'img') {

@@ -1,13 +1,21 @@
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
-import { Box, Heading, useColorMode, theme, Tag, Button } from '@chakra-ui/core'
+import {
+  Box,
+  Heading,
+  useColorMode,
+  theme,
+  Tag,
+  Button,
+  useToast,
+} from '@chakra-ui/core'
 import { ModelPost } from '../../gateways/type'
 import Custom404 from '../404'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { getBlogPost } from '../../gateways'
+import { getBlogPost, getPreviewBlogPost } from '../../gateways'
 import styled from '@emotion/styled'
-import { parseHtmlStringToReactElement } from '../../components/util/parce'
+import { parseHtmlStringToReactElement } from '../../util/parce'
 import { format, parseISO } from 'date-fns'
 import ja from 'date-fns/locale/ja'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -22,20 +30,12 @@ const ContentTag = styled(Tag)`
 interface Props {
   data: ModelPost
   statusCode: number
+  preview: boolean
 }
 
-const Post: NextPage<Props> = ({ data, statusCode }) => {
-  if (!data) {
-    return <Loading loading={true} />
-  }
-
-  if (statusCode === 404) {
-    return <Custom404 />
-  }
-
+const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
+  const toast = useToast()
   const router = useRouter()
-  const { title, tag, createdAt, content, updatedAt } = data
-
   const { colorMode } = useColorMode()
   const [color, setColor] = useState(``)
 
@@ -44,6 +44,28 @@ const Post: NextPage<Props> = ({ data, statusCode }) => {
       colorMode === `light` ? theme.colors.white : theme.colors.gray[800]
     )
   }, [colorMode])
+
+  useEffect(() => {
+    if (preview) {
+      toast({
+        position: 'top',
+        title: '記事のプレビュー中',
+        status: 'error',
+        duration: null,
+        isClosable: false,
+      })
+    }
+  }, [preview])
+
+  if (!data) {
+    return <Loading loading={true} />
+  }
+
+  if (statusCode === 404) {
+    return <Custom404 />
+  }
+
+  const { title, tag, createdAt, content, updatedAt } = data
 
   return (
     <Layout>
@@ -106,11 +128,11 @@ const Post: NextPage<Props> = ({ data, statusCode }) => {
                 variantColor="teal"
                 variant="ghost"
                 onClick={() => {
-                  router.push(`/contents/1`)
+                  preview ? router.push(`/api/clearPreview`) : router.back()
                 }}
                 leftIcon={FaArrowLeft}
               >
-                戻る
+                {preview ? '閉じる' : '戻る'}
               </Button>
             </div>
           </Box>
@@ -126,10 +148,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview,
+  previewData,
+}) => {
   try {
-    const { data, status } = await getBlogPost(params.id as string)
-    return { props: { data: data, statusCode: status } }
+    if (preview) {
+      const { data, status } = await getPreviewBlogPost(
+        params.id as string,
+        previewData.draftKey
+      )
+      return { props: { data: data, statusCode: status, preview: true } }
+    } else {
+      const { data, status } = await getBlogPost(params.id as string)
+      return { props: { data: data, statusCode: status, preview: false } }
+    }
   } catch {
     return { props: { statusCode: 404 } }
   }
