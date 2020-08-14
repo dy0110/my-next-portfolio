@@ -3,7 +3,7 @@ import { getPreviewBlogPost } from '../../gateways/index'
 
 const preview: NextApiHandler = async (req, res) => {
   if (
-    req.query.secret !== process.env.SECRET_KEY ||
+    req.query.secret !== process.env.MY_SECRET_APP_TOKEN ||
     !req.query.id ||
     !req.query.draftKey
   ) {

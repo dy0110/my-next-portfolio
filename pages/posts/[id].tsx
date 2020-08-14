@@ -63,7 +63,7 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
         title: '記事のプレビュー中',
         status: 'error',
         duration: null,
-        isClosable: true,
+        isClosable: false,
       })
     }
   }, [preview])
@@ -123,27 +123,20 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
           <Box marginTop={'16px'} px={'16px'} flex={1} marginBottom={'28px'}>
             {parseHtmlStringToReactElement(content)}
           </Box>
-          {!preview && (
-            <Box
-              display={'flex'}
-              position={'absolute'}
-              bottom={'4px'}
-              px={'4px'}
-            >
-              <div>
-                <Button
-                  variantColor="teal"
-                  variant="ghost"
-                  onClick={() => {
-                    router.push(`/contents/1`)
-                  }}
-                  leftIcon={FaArrowLeft}
-                >
-                  戻る
-                </Button>
-              </div>
-            </Box>
-          )}
+          <Box display={'flex'} position={'absolute'} bottom={'4px'} px={'4px'}>
+            <div>
+              <Button
+                variantColor="teal"
+                variant="ghost"
+                onClick={() => {
+                  preview ? router.push(`/api/clearPreview`) : router.back()
+                }}
+                leftIcon={FaArrowLeft}
+              >
+                {preview ? '閉じる' : '戻る'}
+              </Button>
+            </div>
+          </Box>
         </Box>
       </Box>
     </Layout>
@@ -167,10 +160,10 @@ export const getStaticProps: GetStaticProps = async ({
         params.id as string,
         previewData.draftKey
       )
-      return { props: { data: data, statusCode: status } }
+      return { props: { data: data, statusCode: status, preview: true } }
     } else {
       const { data, status } = await getBlogPost(params.id as string)
-      return { props: { data: data, statusCode: status } }
+      return { props: { data: data, statusCode: status, preview: false } }
     }
   } catch {
     return { props: { statusCode: 404 } }
