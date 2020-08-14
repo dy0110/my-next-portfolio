@@ -4,7 +4,7 @@ import { Box, Image, theme, useColorMode, Heading } from '@chakra-ui/core'
 import { useState, useEffect } from 'react'
 import { getProfile } from '../gateways'
 import { ModelProfile } from '../gateways/type'
-import { parseHtmlStringToReactElement } from '../components/util/parce'
+import { parseHtmlStringToReactElement } from '../util/parce'
 
 interface Props {
   profile: ModelProfile

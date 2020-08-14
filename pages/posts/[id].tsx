@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { getBlogPost, getPreviewBlogPost } from '../../gateways'
 import styled from '@emotion/styled'
-import { parseHtmlStringToReactElement } from '../../components/util/parce'
+import { parseHtmlStringToReactElement } from '../../util/parce'
 import { format, parseISO } from 'date-fns'
 import ja from 'date-fns/locale/ja'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -35,18 +35,7 @@ interface Props {
 
 const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
   const toast = useToast()
-
-  if (!data) {
-    return <Loading loading={true} />
-  }
-
-  if (statusCode === 404) {
-    return <Custom404 />
-  }
-
   const router = useRouter()
-  const { title, tag, createdAt, content, updatedAt } = data
-
   const { colorMode } = useColorMode()
   const [color, setColor] = useState(``)
 
@@ -67,6 +56,16 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
       })
     }
   }, [preview])
+
+  if (!data) {
+    return <Loading loading={true} />
+  }
+
+  if (statusCode === 404) {
+    return <Custom404 />
+  }
+
+  const { title, tag, createdAt, content, updatedAt } = data
 
   return (
     <Layout>
