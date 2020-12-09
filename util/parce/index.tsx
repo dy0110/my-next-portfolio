@@ -1,6 +1,7 @@
 import parse, { domToReact } from 'html-react-parser'
 import { theme, Code, Link, Heading } from '@chakra-ui/core'
 import React from 'react'
+import hljs from 'highlight.js'
 
 export const parseHtmlStringToReactElement = (Text: string) => {
   return parse(Text, {
@@ -66,15 +67,20 @@ export const parseHtmlStringToReactElement = (Text: string) => {
       }
 
       if (domNode.name === 'code') {
-        return domNode.parent.name === 'pre' ? (
-          <Code my={'8px'} width={'100%'}>
-            {domToReact(domNode.children)}
-          </Code>
-        ) : (
-          <Code mx={'4px'} variantColor={'cyan'}>
-            {domToReact(domNode.children)}
-          </Code>
-        )
+        if (domNode.parent.name === 'pre') {
+          const highlightObj = hljs.highlightAuto(domNode.children[0].data)
+          return (
+            <code className={`hljs language-${highlightObj.language}`}>
+              {parse(highlightObj.value)}
+            </code>
+          )
+        } else {
+          return (
+            <Code mx={'4px'} variantColor={'cyan'}>
+              {domToReact(domNode.children)}
+            </Code>
+          )
+        }
       }
 
       if (domNode.name === 'img') {
