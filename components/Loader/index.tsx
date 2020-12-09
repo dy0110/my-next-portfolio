@@ -1,9 +1,13 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { theme } from '@chakra-ui/core'
+import { theme, useColorMode } from '@chakra-ui/core'
 import BounceLoader from 'react-spinners/BounceLoader'
 
-export const Loader = styled.div`
+interface LoaderProps {
+  colorMode: 'light' | 'dark'
+}
+
+export const Loader = styled.div<LoaderProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +17,8 @@ export const Loader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background: ${theme.colors.white};
+  background: ${({ colorMode }) =>
+    colorMode === 'light' ? theme.colors.white : theme.colors.gray[800]};
   z-index: 10;
 `
 interface Props {
@@ -21,9 +26,10 @@ interface Props {
 }
 
 const Loading: React.FC<Props> = ({ loading }) => {
+  const { colorMode } = useColorMode()
   return (
     loading && (
-      <Loader>
+      <Loader colorMode={colorMode}>
         <BounceLoader
           size={150}
           color={theme.colors.teal[400]}
