@@ -1,11 +1,9 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import {
   Box,
   theme,
   IconButton,
   useColorMode,
-  Button,
   Link as ChakraLink,
 } from '@chakra-ui/core'
 import Head from 'next/head'
@@ -45,8 +43,6 @@ const MoonIcon = (): JSX.Element => {
 interface Props {}
 
 const Layout: NextPage<Props> = ({ children }) => {
-  const router = useRouter()
-
   const { colorMode, toggleColorMode } = useColorMode()
   const [headerColor, setHeaderColor] = useState(``)
   const [textColor, setTextColor] = useState(``)
@@ -128,6 +124,10 @@ const Layout: NextPage<Props> = ({ children }) => {
        min-height:100vh;
         width: 100%;
         position: fixed;
+      }
+
+      .hljs{
+        margin: 8px 0; 
       }
 
       @media (max-width: 600px) {
