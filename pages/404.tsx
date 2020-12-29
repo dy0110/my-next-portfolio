@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { Box, Heading, Button } from '@chakra-ui/core'
+import { Box, Heading, Button } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 interface Props {}

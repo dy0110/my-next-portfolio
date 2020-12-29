@@ -1,6 +1,6 @@
 import React from 'react'
 import { tsParticles } from 'tsparticles'
-import { theme } from '@chakra-ui/core'
+import { theme } from '@chakra-ui/react'
 
 const AppParticles: React.FC = () => {
   const onCanvasLoaded = (canvas: HTMLCanvasElement) => {

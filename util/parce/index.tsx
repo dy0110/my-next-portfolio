@@ -1,5 +1,5 @@
 import parse, { domToReact } from 'html-react-parser'
-import { theme, Code, Link, Heading } from '@chakra-ui/core'
+import { theme, Code, Link, Heading } from '@chakra-ui/react'
 import React from 'react'
 import hljs from 'highlight.js'
 

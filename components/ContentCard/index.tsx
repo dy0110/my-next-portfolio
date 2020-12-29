@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, theme, Tag, Link as ChakraLink } from '@chakra-ui/core'
+import { Box, theme, Tag, Link as ChakraLink } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import Link from 'next/link'
 
@@ -61,7 +61,7 @@ const ContentCard: React.FC<Props> = ({
             <ContentTag
               size={'sm'}
               rounded="full"
-              variantColor="teal"
+              colorScheme="teal"
               key={index}
               onClick={() => {
                 onClickTag(tag)

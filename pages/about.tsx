@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Layout from '../components/Layout'
-import { Box, Image, theme, useColorMode, Heading } from '@chakra-ui/core'
+import { Box, Image, theme, useColorMode, Heading } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { getProfile } from '../gateways'
 import { ModelProfile } from '../gateways/type'

@@ -8,7 +8,7 @@ import {
   Tag,
   Button,
   useToast,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { ModelPost } from '../../gateways/type'
 import Custom404 from '../404'
 import { useRouter } from 'next/router'
@@ -113,7 +113,7 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
                 key={index}
                 size={'sm'}
                 rounded="full"
-                variantColor="teal"
+                colorScheme="teal"
               >
                 {item}
               </ContentTag>
@@ -130,7 +130,7 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
                 onClick={() => {
                   preview ? router.push(`/api/clearPreview`) : router.back()
                 }}
-                leftIcon={FaArrowLeft}
+                leftIcon={<FaArrowLeft />}
               >
                 {preview ? '閉じる' : '戻る'}
               </Button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AppProps } from 'next/app'
-import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core'
+import { ChakraProvider } from '@chakra-ui/react'
 import Router from 'next/router'
 import Loading from '../components/Loader'
 import hljs from 'highlight.js'
@@ -29,12 +29,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   }, [])
 
   return (
-    <ThemeProvider>
-      <ColorModeProvider>
-        <CSSReset />
-        {loading ? <Loading loading={loading} /> : <Component {...pageProps} />}
-      </ColorModeProvider>
-    </ThemeProvider>
+    <ChakraProvider>
+      {loading ? <Loading loading={loading} /> : <Component {...pageProps} />}
+    </ChakraProvider>
   )
 }
 

@@ -1,6 +1,6 @@
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
-import { Box, useColorMode, theme, Button, Stack } from '@chakra-ui/core'
+import { Box, useColorMode, theme, Button, Stack } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { getBlogList } from '../../gateways'
 import { ModelContents } from '../../gateways/type'
@@ -105,7 +105,7 @@ const Contents: NextPage<Props> = ({ data, statusCode }) => {
                     const page = Number(id) - 1
                     router.push(`/contents/${page}`)
                   }}
-                  leftIcon={FaArrowLeft}
+                  leftIcon={<FaArrowLeft />}
                 >
                   前の10件
                 </Button>
@@ -119,7 +119,7 @@ const Contents: NextPage<Props> = ({ data, statusCode }) => {
                   onClick={() => {
                     router.back()
                   }}
-                  rightIcon={FaArrowRight}
+                  rightIcon={<FaArrowRight />}
                 >
                   次の10件
                 </Button>

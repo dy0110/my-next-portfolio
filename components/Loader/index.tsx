@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { theme, useColorMode } from '@chakra-ui/core'
+import { theme, useColorMode } from '@chakra-ui/react'
 import BounceLoader from 'react-spinners/BounceLoader'
 
 interface LoaderProps {

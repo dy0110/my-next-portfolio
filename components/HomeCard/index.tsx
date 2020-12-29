@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, theme, useColorMode } from '@chakra-ui/core'
+import { Box, Text, theme, useColorMode } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 
