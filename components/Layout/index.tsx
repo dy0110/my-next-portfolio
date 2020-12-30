@@ -14,15 +14,6 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Footer from '../Fotter'
 import Link from 'next/link'
-import styled from '@emotion/styled'
-
-const LayoutLink = styled(ChakraLink)`
-  font-weight: 600;
-  font-size: 20px;
-  & + & {
-    margin-left: 16px;
-  }
-`
 
 const ParticlesNoSSR = dynamic(() => import('../Particles'), {
   ssr: false,
@@ -77,13 +68,33 @@ const Layout: NextPage<Props> = ({ children }) => {
       >
         <Box display={'flex'} alignItems={'center'}>
           <Link href={'/'}>
-            <LayoutLink color={theme.colors.white}>Home</LayoutLink>
+            <ChakraLink
+              fontWeight={'600'}
+              fontSize={'20px'}
+              color={theme.colors.white}
+            >
+              Home
+            </ChakraLink>
           </Link>
           <Link href={'/about'}>
-            <LayoutLink color={theme.colors.white}>About</LayoutLink>
+            <ChakraLink
+              fontWeight={'600'}
+              fontSize={'20px'}
+              ml={'16px'}
+              color={theme.colors.white}
+            >
+              About
+            </ChakraLink>
           </Link>
           <Link href={'/contents/[id]'} as={`/contents/1`}>
-            <LayoutLink color={theme.colors.white}>Blog</LayoutLink>
+            <ChakraLink
+              fontWeight={'600'}
+              fontSize={'20px'}
+              ml={'16px'}
+              color={theme.colors.white}
+            >
+              Blog
+            </ChakraLink>
           </Link>
         </Box>
         <Box display={'flex'} alignItems={'center'}>

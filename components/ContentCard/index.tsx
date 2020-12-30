@@ -1,31 +1,10 @@
 import React from 'react'
 import { Box, theme, Tag, Link as ChakraLink } from '@chakra-ui/react'
-import styled from '@emotion/styled'
 import Link from 'next/link'
-
-const ContentTag = styled(Tag)`
-  & + & {
-    margin-left: 4px;
-  }
-  cursor: pointer;
-`
-
-const ContentBox = styled(Box)`
-  & + & {
-    margin-top: 16px;
-  }
-`
-
-const TitleLink = styled(ChakraLink)`
-  font-size: 24px;
-`
-
-const BottomLink = styled(ChakraLink)`
-  font-size: 16px;
-`
 
 interface Props {
   title: string
+  widthMargin: boolean
   createDate: string
   contentId: string
   onClickTag: (tag: string) => void
@@ -34,13 +13,14 @@ interface Props {
 
 const ContentCard: React.FC<Props> = ({
   title,
+  widthMargin,
   tags,
   createDate,
   contentId,
   onClickTag,
 }) => {
   return (
-    <ContentBox
+    <Box
       zIndex={3}
       borderWidth={'1px'}
       borderColor={theme.colors.gray[200]}
@@ -50,15 +30,18 @@ const ContentCard: React.FC<Props> = ({
       padding={'8px'}
       shadow={'sm'}
       position={'relative'}
+      mt={widthMargin ? '16px' : undefined}
     >
       <Link href={`/posts/[id]`} as={`/posts/${contentId}`}>
-        <TitleLink color={theme.colors.teal[500]}>{title}</TitleLink>
+        <ChakraLink color={theme.colors.teal[500]} fontSize={'24px'}>
+          {title}
+        </ChakraLink>
       </Link>
       <Box my={'8px'}>{createDate}</Box>
       <Box marginTop={'8px'}>
         {tags &&
           tags.map((tag, index) => (
-            <ContentTag
+            <Tag
               size={'sm'}
               rounded="full"
               colorScheme="teal"
@@ -66,17 +49,21 @@ const ContentCard: React.FC<Props> = ({
               onClick={() => {
                 onClickTag(tag)
               }}
+              style={{ cursor: 'pointer' }}
+              ml={index > 0 ? '4px' : undefined}
             >
               {tag}
-            </ContentTag>
+            </Tag>
           ))}
       </Box>
       <Box position={'absolute'} left={`8px`} bottom={`8px`}>
         <Link href={`/posts/[id]`} as={`/posts/${contentId}`}>
-          <BottomLink color={theme.colors.teal[500]}>全文を見る</BottomLink>
+          <ChakraLink color={theme.colors.teal[500]} fontSize={'16px'}>
+            全文を見る
+          </ChakraLink>
         </Link>
       </Box>
-    </ContentBox>
+    </Box>
   )
 }
 

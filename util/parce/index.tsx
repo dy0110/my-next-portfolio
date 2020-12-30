@@ -76,7 +76,7 @@ export const parseHtmlStringToReactElement = (Text: string) => {
           )
         } else {
           return (
-            <Code mx={'4px'} variantColor={'cyan'}>
+            <Code mx={'4px'} colorScheme={'cyan'}>
               {domToReact(domNode.children)}
             </Code>
           )

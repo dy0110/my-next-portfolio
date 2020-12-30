@@ -73,6 +73,7 @@ const Contents: NextPage<Props> = ({ data, statusCode }) => {
           {contents.slice(0, 10).map((content, index) => (
             <ContentCard
               key={index}
+              widthMargin={index > 0}
               contentId={content.id}
               title={content.title}
               createDate={format(
