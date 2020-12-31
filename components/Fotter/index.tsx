@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Text, theme, useColorMode } from '@chakra-ui/core'
+import { Box, Text, theme, useColorMode } from '@chakra-ui/react'
 
 interface Props {}
 

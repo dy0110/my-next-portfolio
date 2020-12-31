@@ -8,24 +8,17 @@ import {
   Tag,
   Button,
   useToast,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { ModelPost } from '../../gateways/type'
 import Custom404 from '../404'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { getBlogPost, getPreviewBlogPost } from '../../gateways'
-import styled from '@emotion/styled'
 import { parseHtmlStringToReactElement } from '../../util/parce'
 import { format, parseISO } from 'date-fns'
 import ja from 'date-fns/locale/ja'
 import { FaArrowLeft } from 'react-icons/fa'
 import Loading from '../../components/Loader'
-
-const ContentTag = styled(Tag)`
-  & + & {
-    margin-left: 4px;
-  }
-`
 
 interface Props {
   data: ModelPost
@@ -109,14 +102,15 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
           </Heading>
           <Box marginTop={'16px'}>
             {tag?.split(',').map((item, index) => (
-              <ContentTag
+              <Tag
                 key={index}
                 size={'sm'}
                 rounded="full"
-                variantColor="teal"
+                colorScheme="teal"
+                ml={index > 0 ? '4px' : undefined}
               >
                 {item}
-              </ContentTag>
+              </Tag>
             ))}
           </Box>
           <Box marginTop={'16px'} px={'16px'} flex={1} marginBottom={'28px'}>
@@ -125,12 +119,12 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
           <Box display={'flex'} position={'absolute'} bottom={'4px'} px={'4px'}>
             <div>
               <Button
-                variantColor="teal"
-                variant="ghost"
+                colorScheme={'teal'}
+                variant={'ghost'}
                 onClick={() => {
                   preview ? router.push(`/api/clearPreview`) : router.back()
                 }}
-                leftIcon={FaArrowLeft}
+                leftIcon={<FaArrowLeft />}
               >
                 {preview ? '閉じる' : '戻る'}
               </Button>

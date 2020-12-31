@@ -5,7 +5,7 @@ import {
   IconButton,
   useColorMode,
   Link as ChakraLink,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import Head from 'next/head'
 import { Global } from '@emotion/core'
 import { DiGithubBadge } from 'react-icons/di'
@@ -14,15 +14,6 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Footer from '../Fotter'
 import Link from 'next/link'
-import styled from '@emotion/styled'
-
-const LayoutLink = styled(ChakraLink)`
-  font-weight: 600;
-  font-size: 20px;
-  & + & {
-    margin-left: 16px;
-  }
-`
 
 const ParticlesNoSSR = dynamic(() => import('../Particles'), {
   ssr: false,
@@ -66,6 +57,7 @@ const Layout: NextPage<Props> = ({ children }) => {
         as={'header'}
         bg={headerColor}
         w="100%"
+        height={'60px'}
         p={4}
         color={'white'}
         position={'sticky'}
@@ -74,21 +66,41 @@ const Layout: NextPage<Props> = ({ children }) => {
         display={'flex'}
         justifyContent={'space-between'}
       >
-        <Box>
+        <Box display={'flex'} alignItems={'center'}>
           <Link href={'/'}>
-            <LayoutLink color={theme.colors.white}>Home</LayoutLink>
+            <ChakraLink
+              fontWeight={'600'}
+              fontSize={'20px'}
+              color={theme.colors.white}
+            >
+              Home
+            </ChakraLink>
           </Link>
           <Link href={'/about'}>
-            <LayoutLink color={theme.colors.white}>About</LayoutLink>
+            <ChakraLink
+              fontWeight={'600'}
+              fontSize={'20px'}
+              ml={'16px'}
+              color={theme.colors.white}
+            >
+              About
+            </ChakraLink>
           </Link>
           <Link href={'/contents/[id]'} as={`/contents/1`}>
-            <LayoutLink color={theme.colors.white}>Blog</LayoutLink>
+            <ChakraLink
+              fontWeight={'600'}
+              fontSize={'20px'}
+              ml={'16px'}
+              color={theme.colors.white}
+            >
+              Blog
+            </ChakraLink>
           </Link>
         </Box>
-        <Box>
+        <Box display={'flex'} alignItems={'center'}>
           <IconButton
             variant={'link'}
-            icon={GithubIcon}
+            icon={<GithubIcon />}
             aria-label={`github-icon`}
             onClick={() => {
               window.open('https://github.com/dy0110')
@@ -99,7 +111,7 @@ const Layout: NextPage<Props> = ({ children }) => {
           <IconButton
             marginLeft={4}
             variant={'link'}
-            icon={colorMode === 'light' ? MoonIcon : SunIcon}
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             aria-label={`toggle-color-mode`}
             onClick={toggleColorMode}
             h={'36px'}

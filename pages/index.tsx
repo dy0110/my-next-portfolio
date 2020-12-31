@@ -1,6 +1,6 @@
 import React from 'react'
 import { NextPage } from 'next'
-import { Box, Heading, Text, Code } from '@chakra-ui/core'
+import { Box, Heading, Text, Code } from '@chakra-ui/react'
 import Layout from '../components/Layout/index'
 import HomeCard from '../components/HomeCard/index'
 import { useRouter } from 'next/router'
