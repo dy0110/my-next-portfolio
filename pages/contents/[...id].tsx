@@ -100,7 +100,7 @@ const Contents: NextPage<Props> = ({ data, statusCode }) => {
             <div>
               {offset !== 0 && (
                 <Button
-                  variantColor="teal"
+                  colorScheme="teal"
                   variant="ghost"
                   onClick={() => {
                     const page = Number(id) - 1
@@ -115,7 +115,7 @@ const Contents: NextPage<Props> = ({ data, statusCode }) => {
             <div>
               {totalCount === limit && (
                 <Button
-                  variantColor="teal"
+                  colorScheme="teal"
                   variant="ghost"
                   onClick={() => {
                     router.back()
