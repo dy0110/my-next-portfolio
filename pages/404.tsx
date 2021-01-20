@@ -20,7 +20,7 @@ const Custom404: NextPage<Props> = () => {
       </Heading>
       <Button
         marginTop={'16px'}
-        variantColor={'teal'}
+        colorScheme={'teal'}
         size={'lg'}
         variant={'ghost'}
         onClick={() => {
