@@ -14,11 +14,12 @@ import Custom404 from '../404'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { getBlogPost, getPreviewBlogPost } from '../../gateways'
-import { parseHtmlStringToReactElement } from '../../util/parce'
+import { convertToHtml } from '../../util/parse/index'
 import { format, parseISO } from 'date-fns'
 import ja from 'date-fns/locale/ja'
 import { FaArrowLeft } from 'react-icons/fa'
 import Loading from '../../components/Loader'
+import ParseContent from '../../components/ParseContent'
 
 interface Props {
   data: ModelPost
@@ -114,7 +115,7 @@ const Post: NextPage<Props> = ({ data, statusCode, preview }) => {
             ))}
           </Box>
           <Box marginTop={'16px'} px={'16px'} flex={1} marginBottom={'28px'}>
-            {parseHtmlStringToReactElement(content)}
+            <ParseContent text={content} />
           </Box>
           <Box display={'flex'} position={'absolute'} bottom={'4px'} px={'4px'}>
             <div>
@@ -149,14 +150,31 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   try {
     if (preview) {
+      const isDraft = (item: any): item is { draftKey: string } =>
+        !!(item?.draftKey && typeof item.draftKey === 'string')
+
+      const draftKey = isDraft(previewData) ? previewData.draftKey : undefined
+
       const { data, status } = await getPreviewBlogPost(
         params.id as string,
-        previewData.draftKey
+        draftKey
       )
-      return { props: { data: data, statusCode: status, preview: true } }
+      return {
+        props: {
+          data: { ...data, content: convertToHtml(data.content) },
+          statusCode: status,
+          preview: true,
+        },
+      }
     } else {
       const { data, status } = await getBlogPost(params.id as string)
-      return { props: { data: data, statusCode: status, preview: false } }
+      return {
+        props: {
+          data: { ...data, content: convertToHtml(data.content) },
+          statusCode: status,
+          preview: false,
+        },
+      }
     }
   } catch {
     return { props: { statusCode: 404 } }

@@ -4,7 +4,8 @@ import { Box, Image, theme, useColorMode, Heading } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { getProfile } from '../gateways'
 import { ModelProfile } from '../gateways/type'
-import { parseHtmlStringToReactElement } from '../util/parce'
+import { convertToHtml } from '../util/parse/index'
+import ParseContent from '../components/ParseContent'
 
 interface Props {
   profile: ModelProfile
@@ -68,7 +69,7 @@ const About: NextPage<Props> = ({ profile }) => {
             </Box>
 
             <Box mt="4">
-              {parseHtmlStringToReactElement(profile.Introduction)}
+              <ParseContent text={profile.Introduction} />
             </Box>
             <Box
               mt="4"
@@ -79,7 +80,9 @@ const About: NextPage<Props> = ({ profile }) => {
             >
               スキル
             </Box>
-            <Box mt="1">{parseHtmlStringToReactElement(profile.skills)}</Box>
+            <Box mt="1">
+              <ParseContent text={profile.skills} />
+            </Box>
             <Box
               mt="4"
               fontWeight="semibold"
@@ -89,7 +92,9 @@ const About: NextPage<Props> = ({ profile }) => {
             >
               興味のあること
             </Box>
-            <Box mt="1">{parseHtmlStringToReactElement(profile.Interest)}</Box>
+            <Box mt="1">
+              <ParseContent text={profile.Interest} />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -99,7 +104,16 @@ const About: NextPage<Props> = ({ profile }) => {
 
 export const getStaticProps = async () => {
   const { data } = await getProfile()
-  return { props: { profile: data } }
+  return {
+    props: {
+      profile: {
+        ...data,
+        Introduction: convertToHtml(data.Introduction),
+        skills: convertToHtml(data.skills),
+        Interest: convertToHtml(data.Interest),
+      },
+    },
+  }
 }
 
 export default About
