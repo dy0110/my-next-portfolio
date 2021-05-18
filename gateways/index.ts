@@ -42,8 +42,12 @@ export const getBlogPost = async (
 
 export const getPreviewBlogPost = async (
   id: string,
-  draftKey: string
+  draftKey?: string
 ): Promise<AxiosResponse<ModelPost>> => {
+  if (draftKey) {
+    return
+  }
+
   const Response = await instance.get<ModelPost>(
     `/posts/${id}?draftKey=${draftKey}`
   )

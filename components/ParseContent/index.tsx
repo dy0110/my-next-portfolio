@@ -1,25 +1,15 @@
+import React from 'react'
+import { theme, Code, Link, Heading } from '@chakra-ui/react'
 import ReactHtmlParser, {
   convertNodeToElement,
   processNodes,
 } from 'react-html-parser'
-import cheerio from 'cheerio'
-import { theme, Code, Link, Heading } from '@chakra-ui/react'
-import React from 'react'
-import hljs from 'highlight.js'
 
-export const parseHtmlStringToReactElement = (Text: string) => {
-  const $ = cheerio.load(Text)
-  $('pre code').each((_, elm) => {
-    const result = hljs.highlightAuto($(elm).text())
-    $(elm).html(result.value)
-    $(elm).addClass('hljs')
-  })
+interface Props {
+  text: string
+}
 
-  $('ul').css({ 'margin-left': '36px', 'margin-bottom': '4px' })
-  $('ol').css({ 'margin-left': '36px', 'margin-bottom': '4px' })
-  $('img').css('margin', 'auto')
-  $('span').removeAttr('style')
-
+const ParseContent: React.FC<Props> = ({ text }) => {
   const transform = (node, index) => {
     if (node.type === 'tag' && node.name === 'a') {
       return (
@@ -84,9 +74,11 @@ export const parseHtmlStringToReactElement = (Text: string) => {
 
   return (
     <>
-      {ReactHtmlParser($.html(), {
+      {ReactHtmlParser(text, {
         transform,
       })}
     </>
   )
 }
+
+export default ParseContent
