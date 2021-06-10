@@ -1,4 +1,5 @@
 const withPWA = require('next-pwa')
+const runtimeCaching = require('next-pwa/cache')
 require('dotenv').config()
 
 module.exports = withPWA({
@@ -9,6 +10,6 @@ module.exports = withPWA({
   pwa: {
     dest: 'public',
     disable: process.env.NODE_ENV === 'development',
-    register: true,
+    runtimeCaching,
   },
 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, theme, Tag, Link as ChakraLink } from '@chakra-ui/react'
+import { Box, theme, Tag, Link as ChakraLink, Flex } from '@chakra-ui/react'
 import Link from 'next/link'
 
 interface Props {
@@ -20,17 +20,17 @@ const ContentCard: React.FC<Props> = ({
   onClickTag,
 }) => {
   return (
-    <Box
+    <Flex
       zIndex={3}
       borderWidth={'1px'}
       borderColor={theme.colors.gray[200]}
       rounded={'lg'}
       width={`100%`}
-      height={'160px'}
+      minHeight={'160px'}
       padding={'8px'}
       shadow={'sm'}
-      position={'relative'}
       mt={widthMargin ? '16px' : undefined}
+      direction={'column'}
     >
       <Link href={`/posts/[id]`} as={`/posts/${contentId}`}>
         <ChakraLink color={theme.colors.teal[500]} fontSize={'24px'}>
@@ -56,14 +56,14 @@ const ContentCard: React.FC<Props> = ({
             </Tag>
           ))}
       </Box>
-      <Box position={'absolute'} left={`8px`} bottom={`8px`}>
+      <Box marginTop={'8px'}>
         <Link href={`/posts/[id]`} as={`/posts/${contentId}`}>
           <ChakraLink color={theme.colors.teal[500]} fontSize={'16px'}>
             全文を見る
           </ChakraLink>
         </Link>
       </Box>
-    </Box>
+    </Flex>
   )
 }
 
