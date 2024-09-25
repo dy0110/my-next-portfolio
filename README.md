@@ -1,4 +1,4 @@
-# NextJS Typescript Boilerplate
+# [公開終了] ホスティングを終了しました
 
 Bootstrap a developer-friendly NextJS app configured with:
 
